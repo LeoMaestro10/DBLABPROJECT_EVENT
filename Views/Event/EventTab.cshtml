@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebApplication1.Models.Event>
+
+<h2>All Events</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Seats Available</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventItem in Model)
+        {
+            <tr>
+                <td>@eventItem.Name</td>
+                <td>@eventItem.EventDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@eventItem.Location</td>
+                <td>@eventItem.Description</td>
+                <td>@eventItem.SeatsAvailable</td>
+                <td>
+                    <!-- Add a "Register" button for each event -->
+                    <form method="post" action="@Url.Action("Register", "Event", new { eventId = eventItem.Id })">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

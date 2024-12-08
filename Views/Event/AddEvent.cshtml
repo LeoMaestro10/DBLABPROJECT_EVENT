@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApplication1.Areas.Identity.Data
+@model WebApplication1.Models.Event
+@inject UserManager<User> UserManager
+
+@{
+    var userId = UserManager.GetUserId(User); // Get the logged-in user's ID
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Add Event</h2>
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <form asp-action="AddEvent" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- Hidden UserId -->
+                <input type="hidden" asp-for="UserId" value="@userId" />
+
+                <!-- Event Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">Event Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter event name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Event Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold">Event Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter event description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Event Date -->
+                <div class="mb-3">
+                    <label asp-for="EventDate" class="form-label fw-bold">Event Date</label>
+                    <input asp-for="EventDate" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="EventDate" class="text-danger"></span>
+                </div>
+
+                <!-- Event Location with Google Maps -->
+                <div class="mb-3">
+                    <label asp-for="Location" class="form-label fw-bold">Event Location</label>
+                    <div class="input-group">
+                        <input asp-for="Location" class="form-control" placeholder="Enter event location" id="locationInput" />
+                        <button type="button" class="btn btn-secondary" onclick="openGoogleMaps()">Open in Google Maps</button>
+                    </div>
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <!-- Seats Available -->
+                <div class="mb-3">
+                    <label asp-for="SeatsAvailable" class="form-label fw-bold">Seats Available</label>
+                    <input asp-for="SeatsAvailable" class="form-control" placeholder="Enter available seats" />
+                    <span asp-validation-for="SeatsAvailable" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary px-5">Add Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success mt-3">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+</div>
+
+<script>
+    // Function to open Google Maps in a new tab with the entered location
+    function openGoogleMaps() {
+        const location = document.getElementById('locationInput').value.trim();
+        if (location) {
+            const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+            window.open(mapsUrl, '_blank');
+        } else {
+            alert("Please enter a location first.");
+        }
+    }
+</script>

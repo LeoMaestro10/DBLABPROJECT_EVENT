@@ -1,0 +1,104 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebApplication1.Areas.Identity.Data
+
+@inject UserManager<User> UserManager
+
+@{
+    var userName = UserManager.GetUserName(User); // Get the logged-in user's name
+    var userId = UserManager.GetUserId(User); // Get the logged-in user's ID
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">Welcome to Your Dashboard, @userName!</h1>
+    <p class="text-center text-muted">Manage your events and stay organized effortlessly.</p>
+
+    <div class="row mt-4">
+        <!-- Quick Stats -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Upcoming Events</div>
+                <div class="card-body">
+                    <h5 class="card-title">2</h5>
+                    <p class="card-text">You have 2 events scheduled this month.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total Events</div>
+                <div class="card-body">
+                    <h5 class="card-title">4</h5>
+                    <p class="card-text">You have created 4 events so far.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Seats Booked</div>
+                <div class="card-body">
+                    <h5 class="card-title">15</h5>
+                    <p class="card-text">15 attendees have booked seats at your events.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Dashboard Features -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">Event Management</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="https://localhost:7001/Event/AddEvent" class="btn btn-link">
+                                <i class="bi bi-plus-circle"></i> Create New Event
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="https://localhost:7001/Event" class="btn btn-link">
+                                <i class="bi bi-calendar"></i> View My Events
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a asp-controller="Event" asp-action="UpcomingEvents" class="btn btn-link">
+                                <i class="bi bi-clock-history"></i> See Upcoming Events
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header">Account Settings</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="https://localhost:7001/Identity/Account/Manage" class="btn btn-link">
+                                <i class="bi bi-person-circle"></i> Edit Profile
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="https://localhost:7001/Identity/Account/Manage/ChangePassword" class="btn btn-link">
+                                <i class="bi bi-shield-lock"></i> Change Password
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-link">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="ContactUs" class="btn btn-outline-secondary">
+            <i class="bi bi-envelope"></i> Contact Support
+        </a>
+    </div>
+</div>
